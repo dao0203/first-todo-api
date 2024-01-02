@@ -19,6 +19,14 @@ func NewTodoRepository() TodoRepository {
 	return todoRepositoryInstance
 }
 
+func (*todoRepositoryImpl) Delete(todo entity.Todo) error {
+	panic("unimplemented")
+}
+
+func (*todoRepositoryImpl) Update(todo entity.Todo) error {
+	panic("unimplemented")
+}
+
 func (*todoRepositoryImpl) Create(todo entity.Todo) error {
 	panic("unimplemented")
 }
