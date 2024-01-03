@@ -12,6 +12,7 @@ type TodoUsecase interface {
 	FindAll(c context.Context) (todos []entity.Todo, err error)
 	FindByID(c context.Context, id string) (todo entity.Todo, err error)
 	Update(c context.Context, todo entity.Todo) (err error)
+	Delete(c context.Context, todo entity.Todo) (err error)
 }
 
 type todoUsecase struct {
@@ -57,6 +58,15 @@ func (us *todoUsecase) Update(c context.Context, todo entity.Todo) (err error) {
 	defer cancel()
 
 	err = us.todoRepository.Update(todo)
+
+	return err
+}
+
+func (us *todoUsecase) Delete(c context.Context, todo entity.Todo) (err error) {
+	_, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+
+	err = us.todoRepository.Delete(todo)
 
 	return err
 }
