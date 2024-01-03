@@ -1,7 +1,7 @@
 package repository
 
 import (
-	entity "first-todo-api/domain"
+	"first-todo-api/entity"
 	postgres "first-todo-api/postgres"
 	"sync"
 )

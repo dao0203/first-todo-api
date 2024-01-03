@@ -1,6 +1,8 @@
 package repository
 
-import entity "first-todo-api/domain"
+import (
+	"first-todo-api/entity"
+)
 
 type TodoRepository interface {
 	Create(todo entity.Todo) error
