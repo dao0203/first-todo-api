@@ -7,27 +7,33 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type PostgresHandler struct {
+type PostgresHandler interface {
+	Create(todo entity.Todo) (err error)
+	FindAll() (todos []entity.Todo, err error)
+	FindByID(id int) (todo entity.Todo, err error)
+	Update(todo entity.Todo) (err error)
+	Delete(todo entity.Todo) (err error)
+}
+
+type postgresHandlerImpl struct {
 	Conn *sql.DB
 }
 
-func NewPostgresHandler() *PostgresHandler {
-	conn, err := sql.Open("postgres", "host=db port=5432 user=postgres password=postgres dbname=todo sslmode=disable")
+func NewPostgresHandler() PostgresHandler {
+	conn, err := sql.Open("postgres", "host=postgres port=5432 user=postgres dbname=postgres password=postgres sslmode=disable")
 	if err != nil {
-		panic(err.Error)
+		panic(err)
 	}
-	sqlHandler := new(PostgresHandler)
-	sqlHandler.Conn = conn
-	return sqlHandler
+	return &postgresHandlerImpl{Conn: conn}
 }
 
-func (handler *PostgresHandler) Create(todo entity.Todo) (err error) {
+func (handler *postgresHandlerImpl) Create(todo entity.Todo) (err error) {
 	//titleだけを使ってINSERT文を実行している
 	_, err = handler.Conn.Exec("INSERT INTO todos (title) VALUES ($1)", todo.Title)
 	return
 }
 
-func (handler *PostgresHandler) FindAll() (todos []entity.Todo, err error) {
+func (handler *postgresHandlerImpl) FindAll() (todos []entity.Todo, err error) {
 	rows, err := handler.Conn.Query("SELECT * FROM todos")
 	if err != nil {
 		return
@@ -43,7 +49,7 @@ func (handler *PostgresHandler) FindAll() (todos []entity.Todo, err error) {
 	return
 }
 
-func (handler *PostgresHandler) FindByID(id int) (todo entity.Todo, err error) {
+func (handler *postgresHandlerImpl) FindByID(id int) (todo entity.Todo, err error) {
 	rows, err := handler.Conn.Query("SELECT * FROM todos WHERE id = $1", id)
 	if err != nil {
 		return
@@ -57,12 +63,12 @@ func (handler *PostgresHandler) FindByID(id int) (todo entity.Todo, err error) {
 	return
 }
 
-func (handler *PostgresHandler) Update(todo entity.Todo) (err error) {
+func (handler *postgresHandlerImpl) Update(todo entity.Todo) (err error) {
 	_, err = handler.Conn.Exec("UPDATE todos SET title = $1, done = $2 WHERE id = $3", todo.Title, todo.Done, todo.ID)
 	return
 }
 
-func (handler *PostgresHandler) Delete(todo entity.Todo) (err error) {
+func (handler *postgresHandlerImpl) Delete(todo entity.Todo) (err error) {
 	_, err = handler.Conn.Exec("DELETE FROM todos WHERE id = $1", todo.ID)
 	return
 }
