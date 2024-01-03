@@ -2,19 +2,22 @@ package repository
 
 import (
 	entity "first-todo-api/domain"
+	postgres "first-todo-api/postgres"
 	"sync"
 )
 
-type todoRepositoryImpl struct{}
+type todoRepositoryImpl struct {
+	postgresHandler postgres.PostgresHandler
+}
 
 var (
 	todoRepositoryInstance *todoRepositoryImpl
 	todoRepositoryOnce     sync.Once
 )
 
-func NewTodoRepository() TodoRepository {
+func NewTodoRepository(handler postgres.PostgresHandler) TodoRepository {
 	todoRepositoryOnce.Do(func() {
-		todoRepositoryInstance = &todoRepositoryImpl{}
+		todoRepositoryInstance = &todoRepositoryImpl{postgresHandler: handler}
 	})
 	return todoRepositoryInstance
 }
