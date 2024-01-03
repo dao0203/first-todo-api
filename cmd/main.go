@@ -21,5 +21,5 @@ func main() {
 
 	router.Setup(env, timeout, db, gin)
 
-	gin.Run("http://dao0203-first-todo-api.com") //仮のドメイン
+	gin.Run()
 }
