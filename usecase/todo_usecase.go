@@ -1,16 +1,17 @@
 package usecase
 
 import (
+	"context"
 	entity "first-todo-api/domain"
 	"first-todo-api/repository"
 	"time"
 )
 
 type TodoUsecase interface {
-	Create(todo entity.Todo) (err error)
-	FindAll() (todos []entity.Todo, err error)
-	FindByID(id int) (todo entity.Todo, err error)
-	Update(todo entity.Todo) (err error)
+	Create(c context.Context, todo entity.Todo) (err error)
+	FindAll(c context.Context) (todos []entity.Todo, err error)
+	FindByID(c context.Context, id int) (todo entity.Todo, err error)
+	Update(c context.Context, todo entity.Todo) (err error)
 }
 
 type todoUsecase struct {
@@ -25,18 +26,37 @@ func NewTodoUsecase(todoRepository repository.TodoRepository, contextTimeout tim
 	}
 }
 
-func (*todoUsecase) Create(todo entity.Todo) (err error) {
-	panic("unimplemented")
+func (us *todoUsecase) Create(c context.Context, todo entity.Todo) (err error) {
+	_, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+	err = us.todoRepository.Create(todo)
+
+	return err
 }
 
-func (*todoUsecase) FindAll() (todos []entity.Todo, err error) {
-	panic("unimplemented")
+func (us *todoUsecase) FindAll(c context.Context) (todos []entity.Todo, err error) {
+	_, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+
+	todos, err = us.todoRepository.FindAll()
+
+	return todos, err
 }
 
-func (*todoUsecase) FindByID(id int) (todo entity.Todo, err error) {
-	panic("unimplemented")
+func (us *todoUsecase) FindByID(c context.Context, id int) (todo entity.Todo, err error) {
+	_, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+
+	todo, err = us.todoRepository.FindByID(id)
+
+	return todo, err
 }
 
-func (*todoUsecase) Update(todo entity.Todo) (err error) {
-	panic("unimplemented")
+func (us *todoUsecase) Update(c context.Context, todo entity.Todo) (err error) {
+	_, cancel := context.WithTimeout(c, 5*time.Second)
+	defer cancel()
+
+	err = us.todoRepository.Update(todo)
+
+	return err
 }
