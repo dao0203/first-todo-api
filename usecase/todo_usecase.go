@@ -10,7 +10,7 @@ import (
 type TodoUsecase interface {
 	Create(c context.Context, todo entity.Todo) (err error)
 	FindAll(c context.Context) (todos []entity.Todo, err error)
-	FindByID(c context.Context, id int) (todo entity.Todo, err error)
+	FindByID(c context.Context, id string) (todo entity.Todo, err error)
 	Update(c context.Context, todo entity.Todo) (err error)
 }
 
@@ -43,7 +43,7 @@ func (us *todoUsecase) FindAll(c context.Context) (todos []entity.Todo, err erro
 	return todos, err
 }
 
-func (us *todoUsecase) FindByID(c context.Context, id int) (todo entity.Todo, err error) {
+func (us *todoUsecase) FindByID(c context.Context, id string) (todo entity.Todo, err error) {
 	_, cancel := context.WithTimeout(c, 5*time.Second)
 	defer cancel()
 
