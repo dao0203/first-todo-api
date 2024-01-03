@@ -24,7 +24,6 @@ func NewPostgresHandler(conn *sql.DB) PostgresHandler {
 }
 
 func (handler *postgresHandlerImpl) Create(todo entity.Todo) (err error) {
-	//titleだけを使ってINSERT文を実行している
 	_, err = handler.Conn.Exec("INSERT INTO todos (title) VALUES ($1)", todo.Title)
 	return
 }
