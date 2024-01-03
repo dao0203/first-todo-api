@@ -19,11 +19,7 @@ type postgresHandlerImpl struct {
 	Conn *sql.DB
 }
 
-func NewPostgresHandler() PostgresHandler {
-	conn, err := sql.Open("postgres", "host=postgres port=5432 user=postgres dbname=postgres password=postgres sslmode=disable")
-	if err != nil {
-		panic(err)
-	}
+func NewPostgresHandler(conn *sql.DB) PostgresHandler {
 	return &postgresHandlerImpl{Conn: conn}
 }
 
