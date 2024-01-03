@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	entity "first-todo-api/domain"
+	"first-todo-api/entity"
 	"first-todo-api/repository"
 	"time"
 )
