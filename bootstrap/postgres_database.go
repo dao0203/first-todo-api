@@ -7,7 +7,7 @@ import (
 )
 
 type PostgresDatabase struct {
-	conn *sql.DB
+	Conn *sql.DB
 }
 
 func NewPostgresDatabase(env *Env) *PostgresDatabase {
@@ -23,11 +23,11 @@ func NewPostgresDatabase(env *Env) *PostgresDatabase {
 		panic(err)
 	}
 	return &PostgresDatabase{
-		conn: conn,
+		Conn: conn,
 	}
 }
 
 func ClosePostgresDatabase(db *PostgresDatabase) {
-	db.conn.Close()
+	db.Conn.Close()
 	log.Println("Postgres Database Closed")
 }
