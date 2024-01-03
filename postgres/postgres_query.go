@@ -1,4 +1,4 @@
-package infra
+package postgres
 
 import (
 	"database/sql"
@@ -16,20 +16,20 @@ type PostgresQuery interface {
 }
 
 type postgresQueryImpl struct {
-	Conn *sql.DB
+	conn *sql.DB
 }
 
 func NewPostgresQuery(conn *sql.DB) PostgresQuery {
-	return &postgresQueryImpl{Conn: conn}
+	return &postgresQueryImpl{conn: conn}
 }
 
 func (query *postgresQueryImpl) CreateTodo(todo entity.Todo) (err error) {
-	_, err = query.Conn.Exec("INSERT INTO todos (title) VALUES ($1)", todo.Title)
+	_, err = query.conn.Exec("INSERT INTO todos (title) VALUES ($1)", todo.Title)
 	return
 }
 
 func (handler *postgresQueryImpl) FindAllTodo() (todos []entity.Todo, err error) {
-	rows, err := handler.Conn.Query("SELECT * FROM todos")
+	rows, err := handler.conn.Query("SELECT * FROM todos")
 	if err != nil {
 		return
 	}
@@ -45,7 +45,7 @@ func (handler *postgresQueryImpl) FindAllTodo() (todos []entity.Todo, err error)
 }
 
 func (query *postgresQueryImpl) FindTodoByID(id string) (todo entity.Todo, err error) {
-	rows, err := query.Conn.Query("SELECT * FROM todos WHERE id = $1", id)
+	rows, err := query.conn.Query("SELECT * FROM todos WHERE id = $1", id)
 	if err != nil {
 		return
 	}
@@ -59,11 +59,11 @@ func (query *postgresQueryImpl) FindTodoByID(id string) (todo entity.Todo, err e
 }
 
 func (query *postgresQueryImpl) UpdateTodo(todo entity.Todo) (err error) {
-	_, err = query.Conn.Exec("UPDATE todos SET title = $1, done = $2 WHERE id = $3", todo.Title, todo.Done, todo.ID)
+	_, err = query.conn.Exec("UPDATE todos SET title = $1, done = $2 WHERE id = $3", todo.Title, todo.Done, todo.ID)
 	return
 }
 
 func (query *postgresQueryImpl) DeleteTodo(todo entity.Todo) (err error) {
-	_, err = query.Conn.Exec("DELETE FROM todos WHERE id = $1", todo.ID)
+	_, err = query.conn.Exec("DELETE FROM todos WHERE id = $1", todo.ID)
 	return
 }
