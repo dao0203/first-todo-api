@@ -9,12 +9,12 @@ import (
 )
 
 type TodoController struct {
-	TodoUsecase usecase.TodoUsecase
+	TodoUseCase usecase.TodoUsecase
 }
 
 func NewTodoController(todoUsecase usecase.TodoUsecase) *TodoController {
 	return &TodoController{
-		TodoUsecase: todoUsecase,
+		TodoUseCase: todoUsecase,
 	}
 }
 
@@ -28,7 +28,7 @@ func (tc *TodoController) Create(c *gin.Context) {
 		return
 	}
 
-	err = tc.TodoUsecase.Create(c, task)
+	err = tc.TodoUseCase.Create(c, task)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: err.Error()})
@@ -41,7 +41,7 @@ func (tc *TodoController) Create(c *gin.Context) {
 }
 
 func (tc *TodoController) FindAll(c *gin.Context) {
-	todos, err := tc.TodoUsecase.FindAll(c)
+	todos, err := tc.TodoUseCase.FindAll(c)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: err.Error()})
@@ -55,7 +55,7 @@ func (tc *TodoController) FindByID(c *gin.Context) {
 
 	id := c.Param("id")
 
-	todo, err := tc.TodoUsecase.FindByID(c, id)
+	todo, err := tc.TodoUseCase.FindByID(c, id)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: err.Error()})
@@ -75,7 +75,7 @@ func (tc *TodoController) Update(c *gin.Context) {
 		return
 	}
 
-	err = tc.TodoUsecase.Update(c, task)
+	err = tc.TodoUseCase.Update(c, task)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: err.Error()})
@@ -91,7 +91,7 @@ func (tc *TodoController) Delete(c *gin.Context) {
 
 	todo := entity.Todo{ID: id}
 
-	err := tc.TodoUsecase.Delete(c, todo)
+	err := tc.TodoUseCase.Delete(c, todo)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: err.Error()})
