@@ -1,7 +1,7 @@
 package repository
 
 import (
-	entity "first-todo-api/internal/domain"
+	entity "first-todo-api/domain"
 	"sync"
 )
 

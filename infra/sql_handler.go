@@ -2,7 +2,7 @@ package infra
 
 import (
 	"database/sql"
-	entity "first-todo-api/internal/domain"
+	entity "first-todo-api/domain"
 
 	_ "github.com/lib/pq"
 )
