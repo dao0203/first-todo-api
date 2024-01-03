@@ -46,7 +46,7 @@ func (*todoRepositoryImpl) FindAll() ([]entity.Todo, error) {
 	return todos, err
 }
 
-func (*todoRepositoryImpl) FindByID(id int) (entity.Todo, error) {
+func (*todoRepositoryImpl) FindByID(id string) (entity.Todo, error) {
 	todo, err := todoRepositoryInstance.postgresHandler.FindTodoByID(id)
 
 	return todo, err

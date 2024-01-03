@@ -1,7 +1,7 @@
 package entity
 
 type Todo struct {
-	ID    int
+	ID    string
 	Title string
 	Done  bool
 }

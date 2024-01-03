@@ -10,7 +10,7 @@ import (
 type PostgresQuery interface {
 	CreateTodo(todo entity.Todo) (err error)
 	FindAllTodo() (todos []entity.Todo, err error)
-	FindTodoByID(id int) (todo entity.Todo, err error)
+	FindTodoByID(id string) (todo entity.Todo, err error)
 	UpdateTodo(todo entity.Todo) (err error)
 	DeleteTodo(todo entity.Todo) (err error)
 }
@@ -44,7 +44,7 @@ func (handler *postgresQueryImpl) FindAllTodo() (todos []entity.Todo, err error)
 	return
 }
 
-func (query *postgresQueryImpl) FindTodoByID(id int) (todo entity.Todo, err error) {
+func (query *postgresQueryImpl) FindTodoByID(id string) (todo entity.Todo, err error) {
 	rows, err := query.Conn.Query("SELECT * FROM todos WHERE id = $1", id)
 	if err != nil {
 		return
