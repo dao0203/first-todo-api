@@ -27,7 +27,7 @@ func NewPostgresDatabase(env *Env) *PostgresDatabase {
 	}
 }
 
-func ClosePostgresDatabase(db *PostgresDatabase) {
+func (db *PostgresDatabase) ClosePostgresDatabase() {
 	db.Conn.Close()
 	log.Println("Postgres Database Closed")
 }
