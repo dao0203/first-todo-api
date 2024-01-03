@@ -22,22 +22,48 @@ func NewTodoRepository(handler postgres.PostgresHandler) TodoRepository {
 	return todoRepositoryInstance
 }
 
-func (*todoRepositoryImpl) Delete(todo entity.Todo) error {
-	panic("unimplemented")
+func (repo *todoRepositoryImpl) Delete(todo entity.Todo) error {
+	err := repo.postgresHandler.Delete(todo)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (*todoRepositoryImpl) Update(todo entity.Todo) error {
-	panic("unimplemented")
+func (repo *todoRepositoryImpl) Update(todo entity.Todo) error {
+	err := repo.postgresHandler.Update(todo)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (*todoRepositoryImpl) Create(todo entity.Todo) error {
-	panic("unimplemented")
+	err := todoRepositoryInstance.postgresHandler.Create(todo)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (*todoRepositoryImpl) FindAll() ([]entity.Todo, error) {
-	panic("unimplemented")
+	todos, err := todoRepositoryInstance.postgresHandler.FindAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return todos, nil
 }
 
 func (*todoRepositoryImpl) FindByID(id int) (entity.Todo, error) {
-	panic("unimplemented")
+	todo, err := todoRepositoryInstance.postgresHandler.FindByID(id)
+	if err != nil {
+		return entity.Todo{}, err
+	}
+
+	return todo, nil
 }
