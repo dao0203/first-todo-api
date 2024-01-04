@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  app:
+    build: 
+      context: . ## Dockerfileのあるディレクトリを指定
+      dockerfile: Dockerfile ## Dockerfileのファイル名を指定
+    image: app ## イメージを指定
+    container_name: app ## コンテナ名を指定
+    restart: unless-stopped ## コンテナが落ちたら再起動
+    env_file: .env ## 環境変数を指定
+    ports:
+      - "$PORT:$PORT" ## ホスト側のポート:コンテナ側のポート
+    depends_on:
+      - postgres ## dbコンテナが立ち上がるまで待機
+  postgres:
+    image: postgres ## イメージを指定
+    container_name: postgres ## コンテナ名を指定
+    restart: always ## コンテナが落ちたら再起動
+    env_file: .env ## 環境変数を指定
+    environment:
+      POSTGRES_DBNAME: $POSTGRES_DBNAME
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - "$POSTGRES_PORT:$POSTGRES_PORT" ## ホスト側のポート:コンテナ側のポート
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data ## ホスト側のディレクトリ:コンテナ側のディレクトリ
+  
+volumes:
+  postgres_data: ## ボリュームを指定
