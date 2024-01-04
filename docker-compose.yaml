@@ -1,9 +1,7 @@
 version: '3.8'
 services:
   app:
-    build: 
-      context: . ## Dockerfileのあるディレクトリを指定
-      dockerfile: Dockerfile ## Dockerfileのファイル名を指定
+    build: . ## Dockerfileがあるディレクトリを指定
     image: app ## イメージを指定
     container_name: app ## コンテナ名を指定
     restart: unless-stopped ## コンテナが落ちたら再起動
