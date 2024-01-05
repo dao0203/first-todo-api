@@ -11,13 +11,14 @@ type PostgresDatabase struct {
 }
 
 func NewPostgresDatabase(env *Env) *PostgresDatabase {
-	dataSourceName := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
-		env.PostgresHost,
-		env.PostgresPort,
-		env.PostgresUser,
-		env.PostgresDBName,
-		env.PostgresPassword,
-	)
+	dataSourceName :=
+		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+			env.PostgresHost,
+			env.PostgresPort,
+			env.PostgresUser,
+			env.PostgresDBName,
+			env.PostgresPassword,
+		)
 	conn, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		panic(err)
