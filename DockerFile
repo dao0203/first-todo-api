@@ -1,12 +1,12 @@
 FROM golang:1.21.5-alpine
 
+## appフォルダを作成
+RUN mkdir /app
+## 現在のディレクトリから全てのファイルをコンテナのappフォルダにコピー
+ADD . /app
+## ワーキングディレクトリをappに指定
 WORKDIR /app
-
-COPY go.mod go.sum ./
-RUN go mod download
-
-COPY *.go ./
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o /main
-
-CMD ["/app/main"]
+## ビルド
+RUN go build -o /main cmd/main.go
+## コンテナが起動した時に実行されるコマンド
+CMD ["app/main"]
