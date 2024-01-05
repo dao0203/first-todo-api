@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewTodoRouter(env *bootstrap.Env, timeout time.Duration, database *bootstrap.PostgresDatabase, group *gin.RouterGroup) {
+func NewTodoRouter(timeout time.Duration, database *bootstrap.PostgresDatabase, group *gin.RouterGroup) {
 	query := postgres.NewPostgresQuery(database.Conn)
 	todoRepository := repository.NewTodoRepository(query)
 	todoUsecase := usecase.NewTodoUsecase(todoRepository, timeout)

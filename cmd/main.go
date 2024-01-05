@@ -10,7 +10,6 @@ import (
 
 func main() {
 	app := bootstrap.NewApplication()
-	env := app.Env
 
 	db := app.PostgresDatabase
 	defer db.ClosePostgresDatabase()
@@ -19,7 +18,7 @@ func main() {
 
 	gin := gin.Default()
 
-	router.Setup(env, timeout, db, gin)
+	router.Setup(timeout, db, gin)
 
 	gin.Run()
 }

@@ -20,6 +20,7 @@ type postgresQueryImpl struct {
 }
 
 func NewPostgresQuery(conn *sql.DB) PostgresQuery {
+
 	return &postgresQueryImpl{conn: conn}
 }
 
