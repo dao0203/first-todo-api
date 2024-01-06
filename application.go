@@ -20,5 +20,5 @@ func main() {
 
 	router.Setup(timeout, db, gin)
 
-	gin.Run()
+	gin.Run(":5000")
 }
